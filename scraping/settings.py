@@ -14,26 +14,52 @@ BOT_NAME = 'scraping'
 SPIDER_MODULES = ['scraping.spiders']
 NEWSPIDER_MODULE = 'scraping.spiders'
 
+#----------------------------
+# PROXIES
+# https://free-proxy-list.net/
+#----------------------------
+RETRY_TIMES = 10
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+    'scrapy_proxies.RandomProxy': 401,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+}
+
+
+RANDOM_UA_PER_PROXY = True
+
+PROXY_LIST = './proxies.txt'
+
+# Proxy mode
+# 0 = Every requests have different proxy
+# 1 = Take only one proxy from the list and assign it to every requests
+# 2 = Put a custom proxy to use in the settings
+PROXY_MODE = 1
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scraping (+http://www.yourdomain.com)'
+# USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
