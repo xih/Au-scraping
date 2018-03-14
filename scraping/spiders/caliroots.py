@@ -9,6 +9,7 @@ class CalirootsSpider(Spider):
     allowed_domains = ['caliroots.com']
     start_urls = ['https://caliroots.com/brands']
 
+    # TODO: this isn't working
     def start_requests(self):
         return [Request(url="https://caliroots.com/brands", cookies={'currency': 'USD', 'country': 'US'})]
 
